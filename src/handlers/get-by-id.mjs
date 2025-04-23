@@ -12,19 +12,19 @@ const tableName = process.env.SAMPLE_TABLE;
 /**
  * A simple example includes a HTTP get method to get one item by id from a DynamoDB table.
  */
-export const getByIdHandler = async (lambdaEvent) => {
-  if (lambdaEvent.httpMethod !== 'GET') {
+export const getByIdHandler = async (event) => {
+  if (event.httpMethod !== 'GET') {
     return {
       statusCode: 405,
-      body: JSON.stringify({ error: `Method Not Allowed: ${lambdaEvent.httpMethod}` }),
+      body: JSON.stringify({ error: `Method Not Allowed: ${event.httpMethod}` }),
     };
   }
 }
   // All log statements are written to CloudWatch
-  console.info('Received event:', lambdaEvent);
+  console.info('Received event:', event);
  
   // Get id from pathParameters from APIGateway because of `/{id}` at template.yaml
-  const {id} = lambdaEvent.pathParameters;
+  const {id} = event.pathParameters;
  
   // Get the item from the table
   // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#get-property
@@ -48,6 +48,12 @@ export const getByIdHandler = async (lambdaEvent) => {
   };
  
   // All log statements are written to CloudWatch
-  console.info(`response from: ${lambdaEvent.path} statusCode: ${response.statusCode} body: ${response.body}`);
+  console.info(`response from: ${event.path} statusCode: ${response.statusCode} body: ${response.body}`);
   return response;
+} catch (err) {
+  console.error("DynamoDB Error", err) ;
+  return {
+    statusCode: 500,
+    body: JSON.stringify({ error: "internal server error"}),
+  };
 }
