@@ -1,51 +1,56 @@
-# Cloud Resume Challenge – Kevin Vang
+# kevin-cloud-resume-challenge
 
-Welcome! 👋 This project is my completed version of the [Cloud Resume Challenge](https://cloudresumechallenge.dev/), a hands-on AWS learning project that showcases cloud engineering and DevOps skills.
+Welcome to my Cloud Resume Challenge, this project is a real-world, end-to-end cloud engineering showcase using AWS and Infrastructure as Code (IaC). It demonstrates my ability to build secure, scalable serverless applications with CI/CD pipelines — and it's live at:
+**[https://www.kevinvang.org]**
+**Blog post [https://medium.com/@kvn_vang/cloud-resume-challenge-a9101d4b659f]**
 
-✅ Live Site: [https://kevinvang.org](https://kevinvang.org)
+# What I learned
+Through this challenge, I alearned how to:
+- Build and deploy cloud resources using AWS SAM and CloudFormation
+- Secured Static websites with S3 + CloudFront + Origin Access Control (OAC)
+- Create a CI/CD pipeline using GitHub Actions
+- Debug IAM permission issues and CORS errors
+- Set up and test serverless APIs using Lambda and DynamoDB
 
----
+Tools and Services
+Category | Tools/Services
+Cloud provide - AWS
+Hosting - S3 + CloudFront
+Domain - Route 53
+Security - IAM, ACM (HTTPS), OAC
+Backend - AWS Lambda (node.js), API Gateway
+Database - DynamoDB
+IAC - AWS SAM, CloudFormation
+CI/CD - GitHub Actions
+Frontend - HTML, CSS, Javascript
+Testing - Jest, SAM CLI, curl
+Monitoring - CloudWatch
 
-## 🚀 Technologies Used
+# Struggles I Faced
+- IAM & Access Control
+I had to troubleshoot permission erros between S3, CloudFront and Lambda. Resolved by applying least privilage IAM roles and using OAC (Origin Access Control)
+- CORS Error
+Frontend failed to get data from API Gateway. I fixed it by adding proper headers in Lambda responses and tweaking API Gateway settings.
+- CloudFront Caching
+My site wouldn't update after changes. I solved it by automating cache invalidation in the CI/CD workflow.
+- Local API Testing
+Testing Lambda locally was new to me. I recall in my Cloud Engineer Acadamy that you can 'curl' to simulate API requests.
 
-| Tool | Purpose |
-|------|---------|
-| **HTML/CSS/JS** | Static resume frontend |
-| **Amazon S3** | Hosts static website |
-| **Amazon CloudFront** | Global CDN + HTTPS support |
-| **AWS ACM** | Free SSL certificate for `kevinvang.org` |
-| **AWS Route 53** | DNS for the custom domain |
-| **Amazon DynamoDB** | Stores live visitor count |
-| **AWS Lambda (Node.js)** | Backend to increment visitor count |
-| **Amazon API Gateway** | REST API to expose Lambda to frontend |
-| **AWS SAM CLI** | Infrastructure as Code (IaC) |
-| **GitHub + CLI** | Project version control and future CI/CD |
+# Architecture Diagram
+User --> Route 53 --> CloudFront --> S3 Bucket --> API Gate Way --> Lambda --> DynamoDB
 
----
+# Project Structure
+This repo contains the source code and supporting files for a serverless application deployed using the AWS Serverless Application Model (SAM).
+src/ - Lambda function source code
+events/ - Sample test events
+tests/ Unit tests (jest)
+template.yaml - CloudFormation template
 
-## 📊 Features
+# Setup and Deployment Guide
+AWS SAM CLI - [Install here](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
+- Node.js 22 – [Install here](https://nodejs.org/en/)
+- Docker – [Install here](https://hub.docker.com/search/?type=edition&offering=community)
 
-- Live hosted resume at **`kevinvang.org`**
-- Visitor counter backed by **DynamoDB + Lambda**
-- Color-changing visitor count animation with JavaScript
-- Secure **HTTPS via CloudFront + OAC**
-- SAM-deployed serverless architecture
-
----
-
-## ✅ Cloud Resume Challenge Checklist
-
-- [x] Resume written in HTML
-- [x] Hosted via Amazon S3
-- [x] HTTPS secured via CloudFront + ACM
-- [x] Custom domain set with Route 53: `kevinvang.org`
-- [x] Visitor counter backed by DynamoDB
-- [x] Serverless backend using Lambda + API Gateway
-- [x] Infrastructure as Code via AWS SAM
-- [ ] CI/CD pipeline via GitHub Actions (coming soon!)
-- [ ] Blog post about the process (optional)
-
----
-
-## 📁 Project Structure
-
+# Build and Deploy SAM
+sam build
+sam deploy --guided
