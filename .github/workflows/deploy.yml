@@ -22,10 +22,10 @@ jobs:
 
       - name: Sync files to S3
         run: |
-          aws s3 sync Resume/ s3://kevinv-cloud-resume-challenge
+          aws s3 sync Resume/ s3://${{ secrets.S3_BUCKET_NAME }}
 
       - name: Invalidate CloudFront cache
         run: |
           aws cloudfront create-invalidation \
-            --distribution-id E2XYPE5EEOCVV1 \
+            --distribution-id %{{ secrets.CLOUDFRONT_DIST_ID }} \
             --paths "/*"
